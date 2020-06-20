@@ -1,0 +1,194 @@
+﻿<Window x:Class="RedguardUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RedguardUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="600" ResizeMode="NoResize">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="1.5*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Sound" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Current Driver">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock TextWrapping="Wrap" Name="TbDeviceName" VerticalAlignment="Top" Margin="12,0,0,0"/>
+                        <Grid Grid.Row="1" Margin="24,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" Text="IO Address"/>
+                            <TextBlock TextWrapping="Wrap" Text="IRQ" Grid.Row="1"/>
+                            <TextBlock TextWrapping="Wrap" Text="DMA8" Grid.Row="2"/>
+                            <TextBlock TextWrapping="Wrap" Text="DMA16" Grid.Row="3"/>
+                            <TextBlock TextWrapping="Wrap" Name="TbIOAddress" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock TextWrapping="Wrap" Name="TbIRQ" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock TextWrapping="Wrap" Name="TbDMA8" Grid.Row="2" Grid.Column="1" Margin="10,0,0,0"/>
+                            <TextBlock TextWrapping="Wrap" Name="TbDMA16" Grid.Row="3" Grid.Column="1" Margin="10,0,0,0"/>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" Margin="5,0,3,5" Padding="1">
+                        <TextBlock TextWrapping="Wrap" Text="Run &quot;sound/setsound.exe&quot; from Redguard directory in DOSBox to configure sound device."/>
+                    </Border>
+                    <CheckBox x:Name="FastSoundCheckBox" Content="Fast Sound" Grid.Row="1" HorizontalAlignment="Center" Click="CheckBox_Click" Tag="system:fast_sound"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Resolution">
+                <TabControl>
+                    <TabControl.Resources>
+                        <local:GlideResolutionConverter x:Key="GlideResolutionConverter"/>
+                        <local:SoftwareResolutionConverter x:Key="SoftwareResolutionConverter"/>
+                    </TabControl.Resources>
+                    <TabItem Header="3DFX">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Slider x:Name="GlideResolutionSlider" SmallChange="0" TickPlacement="Both" Maximum="6" IsSnapToTickEnabled="True" Value="6" Tag="3dfx:resolution" ValueChanged="Slider_ValueChanged"/>
+                            <TextBlock Text="{Binding Value, Converter={StaticResource GlideResolutionConverter}, ElementName=GlideResolutionSlider}"  Grid.Row="1" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Software">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Slider x:Name="SoftwareResolutionSlider" SmallChange="0" TickPlacement="Both" Maximum="2" IsSnapToTickEnabled="True" Value="2" Tag="screen:resolution" ValueChanged="Slider_ValueChanged" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding Value, Converter={StaticResource SoftwareResolutionConverter}, ElementName=SoftwareResolutionSlider}" HorizontalAlignment="Center" Grid.Row="1"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </GroupBox>
+            <GroupBox Header="3DFX Texture Scale" Grid.Column="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Better&#xD;&#xA;Looking" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Slider x:Name="GlideTextureSlider" Maximum="3" SmallChange="0" TickPlacement="Both" VerticalAlignment="Center" Grid.Column="1" IsSnapToTickEnabled="True" Tag="3dfx:text_scale" ValueChanged="Slider_ValueChanged"/>
+                    <Label Content="Faster" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="2"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Camera Glide" Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="H"/>
+                    <TextBlock TextWrapping="Wrap" Text="V" Grid.Row="1" HorizontalAlignment="Left"/>
+                    <TextBlock TextWrapping="Wrap" Text="High" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
+                    <TextBlock TextWrapping="Wrap" Text="Low" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Slider x:Name="CamHSlider" Grid.Column="1" Grid.ColumnSpan="2" SmallChange="0" LargeChange="0.1" Maximum="1" Minimum="0.1" Value="0.7" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_x"/>
+                    <Slider x:Name="CamVSlider" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" LargeChange="0.1" SmallChange="0" Maximum="1" Minimum="0.1" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_y"/>
+
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Camera Combat Angle" Grid.Row="1" Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock TextWrapping="Wrap" Text="H" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Slider x:Name="CombatHSlider" Grid.Row="1" Maximum="512" TickPlacement="TopLeft" SmallChange="0" Minimum="-512" Value="245" IsDirectionReversed="True" ValueChanged="Slider_ValueChanged" TickFrequency="256" Tag="camera:camera_combat_angle_offset_y"/>
+                    </Grid>
+                    <Grid Grid.Column="1" Grid.RowSpan="2">
+                        <TextBlock TextWrapping="Wrap" Text="V" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Slider x:Name="CombatVSlider" Orientation="Vertical" Maximum="256" TickPlacement="TopLeft" Value="134" SmallChange="0" ValueChanged="Slider_ValueChanged" TickFrequency="128" LargeChange="0" Tag="camera:camera_combat_angle_offset_x"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Joystick Threshold">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Slider x:Name="JoystickSlider" Grid.ColumnSpan="2" SmallChange="0" Maximum="256" Minimum="16" Value="60" ValueChanged="Slider_ValueChanged" Tag="cyrus:joy_tolerance"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Low" Grid.Row="1"/>
+                    <TextBlock TextWrapping="Wrap" Text="High" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Misc" Grid.Row="1">
+                <StackPanel VerticalAlignment="Top">
+                    <CheckBox x:Name="SubtitlesCheckBox" Content="Subtitles" Click="CheckBox_Click" Tag="dialog:dialog_print_text"/>
+                    <CheckBox x:Name="AutoDefendCheckBox" Content="Auto Defend" Click="CheckBox_Click" Tag="cyrus:auto_defend"/>
+                    <CheckBox x:Name="SMKInterlaceCheckbox" Content="Movie Interlace" Click="CheckBox_Click" Tag="screen:smk_interlace"/>
+                </StackPanel>
+            </GroupBox>
+            <Button x:Name="SaveButton" Content="Save" Grid.Row="2" Click="SaveButton_Click"/>
+
+        </Grid>
+
+    </Grid>
+</Window>
