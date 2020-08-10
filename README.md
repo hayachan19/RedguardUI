@@ -10,7 +10,7 @@ Some of the settings in Redguard (such as camera adjustments) are only available
 Requires .NET Core 3.1 to run (supported on Win7 and up).
 
 ## Installation
-Just drop the compiled files in the main directory. Sound configuration is done with SETSOUND program so that section is there just for show.
+Just drop the compiled files in the main game directory. Sound configuration is done with SETSOUND program so that section is there just for show.
 
 ## To-Do
 - Make it more WPF-esque
