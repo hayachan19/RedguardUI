@@ -4,12 +4,15 @@ using System.IO;
 
 namespace RedguardUI
 {
+
     public class SimpleIniParser
     {
         public Dictionary<string, Dictionary<string, string>> Content { get; private set; }
 
-        public SimpleIniParser(string fileName)
+        public bool StrictValue = true; //allows empty values when false
+        public SimpleIniParser(string fileName, bool isStrict)
         {
+            StrictValue = isStrict;
             Read(fileName);
         }
 
@@ -34,21 +37,29 @@ namespace RedguardUI
                     currentSection = item.Trim(new char[] { '[', ']' });
                     inSection = true;
                 }
-                if (item.Contains("="))
+
+                else if (item.Contains("="))
                 {
                     if (inSection)
                     {
                         string[] temp = item.Split('=');
+                        if (StrictValue) if (temp[1] == string.Empty) throw new EmptyValueException(item);
+                        if (temp[0] == string.Empty) throw new EmptyKeyException(item);
                         sections.Add(temp[0], temp[1]);
                     }
-                    else throw new Exception("Key pair outside section");
+                    else throw new PairOutsideSectionException(item);
                 }
+
+                else if (item == string.Empty) { } //skip blank lines
+
+                //if the item is anything else bail out hard
+                else throw new InvalidDataException(item);
             }
             Content.Add(currentSection, sections); //add last section
         }
 
         public void Save(string fileName)
-        { 
+        {
             List<string> output = new List<string>();
             foreach (var section in Content)
             {
@@ -57,8 +68,13 @@ namespace RedguardUI
                 {
                     output.Add(setting.Key + "=" + setting.Value);
                 }
+                output.Add(string.Empty); //blank line after each section to improve readability
             }
             File.WriteAllLines(fileName, output);
         }
     }
+
+    internal class EmptyValueException : Exception { public EmptyValueException(string message) : base(message) { } }
+    internal class EmptyKeyException : Exception { public EmptyKeyException(string message) : base(message) { } }
+    internal class PairOutsideSectionException : Exception { public PairOutsideSectionException(string message) : base(message) { } }
 }

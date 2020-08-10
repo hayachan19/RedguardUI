@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RedguardUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600" ResizeMode="NoResize">
+        Title="RedguardUI" Height="400" Width="600" ResizeMode="NoResize">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -128,8 +128,8 @@
                     <TextBlock TextWrapping="Wrap" Text="V" Grid.Row="1" HorizontalAlignment="Left"/>
                     <TextBlock TextWrapping="Wrap" Text="High" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"/>
                     <TextBlock TextWrapping="Wrap" Text="Low" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                    <Slider x:Name="CamHSlider" Grid.Column="1" Grid.ColumnSpan="2" SmallChange="0" LargeChange="0.1" Maximum="1" Minimum="0.1" Value="0.7" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_x"/>
-                    <Slider x:Name="CamVSlider" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" LargeChange="0.1" SmallChange="0" Maximum="1" Minimum="0.1" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_y"/>
+                    <Slider x:Name="CamHSlider" Grid.Column="1" Grid.ColumnSpan="2" SmallChange="0" Minimum="0.1" Value="0.7" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_x" LargeChange="0.1" Maximum="1" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
+                    <Slider x:Name="CamVSlider" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SmallChange="0" Minimum="0.1" ValueChanged="Slider_ValueChanged" Tag="camera:glide_angle_y" Maximum="1" LargeChange="0.1" IsSnapToTickEnabled="True" TickFrequency="0.1"/>
 
                 </Grid>
             </GroupBox>
